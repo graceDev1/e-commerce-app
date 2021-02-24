@@ -10,6 +10,10 @@ let ProductSchema = new db.Schema({
         type: Number,
         required: true
     },
+    description:{
+        type: Text,
+        required: true
+    },
     digital:{
         type: Boolean,
         required: false,
