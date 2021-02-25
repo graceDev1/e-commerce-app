@@ -1,6 +1,9 @@
-import express, {Application} from 'express';
+import express, { Application } from 'express';
+// import multer from 'multer';
 
 let app:Application = express()
+app.use(express.json())
+// app.use();
 
 let port = process.env.PORT || 4000;
 
