@@ -1,6 +1,6 @@
 import ProductModel from '../../models/product/product.model';
 import { Request, Response} from 'express';
-import multer from 'multer';
+
 
 // GET api/product
 let fGetProduct= (req:Request, res: Response) => {
@@ -21,22 +21,9 @@ let fGetOneProduct = (req:Request, res:Response) => {
 /*
 before making a post request to the product we have, 
 to do multer first.
-    - First the upload the file with multer
-    - 
+    - First the upload the file with multer will be in router file
+    - then save to the database
 */
-
-let fFileUpload = (filename:any) =>{
-    let storage = multer.diskStorage({
-        destination: (req:Request,filename,cb)=>{
-            cb(null, 'uploads')
-        },
-        filename: (req, file, cb) => {
-            cb(null, file.filename + '-'+Date.now())
-        }
-    })
-    var upload = multer({storage})
-    return upload;
-}
 
 // validation function
 let fValidator = (req:Request, res: Response) => {
@@ -66,6 +53,30 @@ let fPostProduct = (req:Request, res:Response) =>{
 
 
 // PATCH api/product/:id
-// DELETE api/product/:id
+let fUpdateProduct = async (req: Request, res:Response) =>{
+    let {name, price, description,digital} = req.body;
+    let file = req.file.path;
+    let image : string = file.substring(11);
+    let id : string = req.params.id;
+    await ProductModel.findByIdAndUpdate(id, {name,price,description,digital,image},{new:true,overwrite:true})
+    .then(result => res.status(200).json(result))
+    .catch((err:any)=> res.status(500).json(err));
+    
+}
 
-export default {fGetOneProduct,fGetProduct, fPostProduct};
+// DELETE api/product/:id
+let fDeleteProduct = async (req: Request, res:Response) =>{
+    let id: string = req.params.id;
+    await ProductModel.findByIdAndDelete(id)
+    .then(result => res.json(result))
+    .catch((err:any)=> res.json(err));
+}
+
+
+export default {
+    fGetOneProduct,
+    fGetProduct, 
+    fPostProduct,
+    fUpdateProduct,
+    fDeleteProduct
+};

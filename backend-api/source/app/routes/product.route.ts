@@ -33,7 +33,7 @@ const fileFilter = (req:Request, file:any, cb: any) =>{
     }
 }
 
-
+// limit the size of th efile
 const upload = multer({
     storage: storage,
     limits: {
@@ -45,6 +45,13 @@ const upload = multer({
 // post request
 router.post('/', upload.single('image'),productController.fPostProduct);
 
+
+// patch request
+router.patch('/:id', upload.single('image'),productController.fUpdateProduct);
+
+// delete product
+// /api/product/:id
+router.delete('/:id',productController.fDeleteProduct);
 
 
 export default router;

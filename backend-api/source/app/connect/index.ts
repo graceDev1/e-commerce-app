@@ -3,10 +3,12 @@ import mongoose from 'mongoose';
 
 // const uri : string = config.get('uri');
 
+// console.log(uri);
 mongoose.connect('mongodb://127.0.0.1:27017/SaraShop', {
     useUnifiedTopology: true, 
     useNewUrlParser:true,
-    useCreateIndex: true
+    useCreateIndex: true,
+    useFindAndModify:true
 }
 )
 .then(()=> console.log('we are connected'))
