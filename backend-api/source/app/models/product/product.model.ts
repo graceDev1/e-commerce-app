@@ -11,7 +11,7 @@ let ProductSchema = new db.Schema({
         required: true
     },
     description:{
-        type: Text,
+        type: String,
         required: true
     },
     digital:{
@@ -19,8 +19,8 @@ let ProductSchema = new db.Schema({
         required: false,
     },
     image: {
-        data: Buffer,
-        contentType: String
+        type:String,
+        required: true
     }
 
 });

@@ -40,7 +40,8 @@ let fFileUpload = (filename:any) =>{
 
 // validation function
 let fValidator = (req:Request, res: Response) => {
-    let {name, price, description,digital,image} = req.body;
+    let {name, price, description,digital} = req.body;
+    let image = req.file.path;
     if(!name || !price || !description || !digital || !image){
         return res.status(501).json({msg: 'please fill all field'})
     }
@@ -48,9 +49,23 @@ let fValidator = (req:Request, res: Response) => {
 
 // POST api/product
 let fPostProduct = (req:Request, res:Response) =>{
-    
+     let {name, price, description,digital} = req.body;
+     let file = req.file.path;
+     let image : string = file.substring(11)
+     fValidator(req,res);
+    //  console.log(file.substring(11));
+     let product = new ProductModel({name, price, description,digital,image});
+     product.save()
+     .then(result => {
+         res.json(result);
+     })
+     .catch((err: any)=>{
+         res.status(500).json(err);
+     })
 }
 
 
 // PATCH api/product/:id
 // DELETE api/product/:id
+
+export default {fGetOneProduct,fGetProduct, fPostProduct};
