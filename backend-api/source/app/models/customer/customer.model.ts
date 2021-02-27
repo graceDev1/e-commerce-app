@@ -1,6 +1,7 @@
 import db from '../../connect';
+import ICustomer from './Icustomer';
 
-let CustomerSchema = new db.Schema({
+let CustomerSchema: db.Schema = new db.Schema({
     name: {
         type: String,
         required: true
@@ -21,6 +22,6 @@ let CustomerSchema = new db.Schema({
 })
 
 
-const Customer = db.model('Customer',CustomerSchema);
+const Customer = db.model<ICustomer>('Customer',CustomerSchema);
 
 export default Customer;
